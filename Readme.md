@@ -22,7 +22,7 @@
 
 ## Business Problem
 
-**Zooho** is a company whose systems generate millions of application log lines daily across multiple source platforms:
+There is a company whose systems generate millions of application log lines daily across multiple source platforms:
 
 | Source System | Description |
 |---|---|
@@ -214,7 +214,7 @@ This architecture minimises API costs while maximising classification quality ac
 ### 1. Clone and create a virtual environment
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/darshil1995/nlp-log-classification
 cd 02_log_classification
 python -m venv .venv
 
@@ -353,14 +353,6 @@ Accepts a CSV file upload and returns a labeled CSV.
 **Response**
 
 Returns the same CSV with an additional `label` column.
-
-**Example using curl**
-
-```bash
-curl -X POST "http://127.0.0.1:8000/classify/" \
-  -F "file=@resources/test.csv" \
-  --output classified_output.csv
-```
 
 **Error responses**
 
