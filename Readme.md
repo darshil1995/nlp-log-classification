@@ -22,7 +22,7 @@
 
 ## Business Problem
 
-**Zooho** is a company whose systems generate millions of application log lines daily across multiple source platforms:
+There is a company whose systems generate millions of application log lines daily across multiple source platforms:
 
 | Source System | Description |
 |---|---|
