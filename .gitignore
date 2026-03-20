@@ -1,0 +1,32 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Environment variables - NEVER commit this
+.env
+
+# Trained model - large binary file, regenerate from notebook
+models/
+
+# Output files
+resources/output.csv
+resources/Project_Intro.docx
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# PyCharm IDE
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

@@ -1,0 +1,34 @@
+# ── Stage 1: builder ──────────────────────────────────────────────────────────
+FROM python:3.11-slim AS builder
+
+WORKDIR /install
+
+# Frontend only needs these three packages — much lighter than the full requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --prefix=/install/packages --no-cache-dir \
+        streamlit==1.55.0 \
+        pandas==2.3.3 \
+        requests==2.32.5
+
+
+# ── Stage 2: runtime ──────────────────────────────────────────────────────────
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY --from=builder /install/packages /usr/local
+
+# Copy only the frontend folder
+COPY frontend/ ./frontend/
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+EXPOSE 8501
+
+# --server.headless=true   disables the "press Enter" prompt
+# --server.address=0.0.0.0 makes it reachable outside the container
+CMD ["streamlit", "run", "frontend/app.py", \
+     "--server.port=8501", \
+     "--server.address=0.0.0.0", \
+     "--server.headless=true"]

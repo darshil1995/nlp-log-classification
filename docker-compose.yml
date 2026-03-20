@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+
+  # ── Backend: FastAPI ─────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: .                          # Project root is the build context
+      dockerfile: Dockerfile.backend
+    container_name: log_classification_backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env                              # Passes GROQ_API_KEY into the container
+    volumes:
+      - ./resources:/app/resources        # output.csv written here is visible on your machine
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s                   # Extra time for model loading on first start
+    restart: unless-stopped
+
+  # ── Frontend: Streamlit ──────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: log_classification_frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      backend:
+        condition: service_healthy        # Don't start until backend passes healthcheck
+    restart: unless-stopped
+
+networks:
+  default:
+    name: log_classification_network

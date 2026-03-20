@@ -1,0 +1,43 @@
+# ── Stage 1: builder ──────────────────────────────────────────────────────────
+FROM python:3.11-slim AS builder
+
+WORKDIR /install
+
+COPY requirements.txt .
+
+# Install only backend dependencies
+RUN pip install --upgrade pip && \
+    pip install --prefix=/install/packages --no-cache-dir \
+        pandas==2.3.3 \
+        joblib==1.5.3 \
+        scikit-learn==1.8.0 \
+        sentence-transformers==5.3.0 \
+        python-dotenv==1.2.2 \
+        groq==1.1.1 \
+        fastapi==0.135.1 \
+        uvicorn==0.42.0
+
+
+# ── Stage 2: runtime ──────────────────────────────────────────────────────────
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Copy installed packages from builder
+COPY --from=builder /install/packages /usr/local
+
+# Copy only what the backend needs
+COPY classify.py .
+COPY backend/ ./backend/
+COPY processor/ ./processor/
+COPY models/ ./models/
+COPY resources/ ./resources/
+
+# Project root on PYTHONPATH so 'classify' and 'processor' are importable
+ENV PYTHONPATH=/app
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+EXPOSE 8000
+
+CMD ["uvicorn", "backend.server:app", "--host", "0.0.0.0", "--port", "8000"]

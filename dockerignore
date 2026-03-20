@@ -1,0 +1,28 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Secrets — never bake into image
+.env
+
+# Git
+.git/
+.gitignore
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Jupyter & training — not needed at runtime
+.ipynb_checkpoints/
+training/
+
+# Docs and output files
+resources/output.csv
+resources/Project_Intro.docx
+README.md
+
+# IDE
+.idea/
