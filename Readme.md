@@ -214,7 +214,7 @@ This architecture minimises API costs while maximising classification quality ac
 ### 1. Clone and create a virtual environment
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/darshil1995/nlp-log-classification
 cd 02_log_classification
 python -m venv .venv
 
