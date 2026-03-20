@@ -354,14 +354,6 @@ Accepts a CSV file upload and returns a labeled CSV.
 
 Returns the same CSV with an additional `label` column.
 
-**Example using curl**
-
-```bash
-curl -X POST "http://127.0.0.1:8000/classify/" \
-  -F "file=@resources/test.csv" \
-  --output classified_output.csv
-```
-
 **Error responses**
 
 | Code | Reason |
